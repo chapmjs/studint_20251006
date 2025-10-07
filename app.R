@@ -128,45 +128,7 @@ ui <- fluidPage(
     )
   ),
   
-  # Modal for Adding New Student
-  bslib::modal_ui(
-    id = "add_student_modal",
-    title = "Add New Student",
-    size = "large",
-    textInput("new_first_name", "First Name*"),
-    textInput("new_last_name", "Last Name*"),
-    textInput("new_phone", "Phone"),
-    textInput("new_email", "Email"),
-    selectInput("new_grad_month", "Graduation Month", 
-                choices = c("", month.name)),
-    numericInput("new_grad_year", "Graduation Year", 
-                 value = year(Sys.Date()), min = 2020, max = 2035),
-    textInput("new_hometown", "Hometown"),
-    textInput("new_major", "Major"),
-    textInput("new_linkedin", "LinkedIn URL"),
-    textInput("new_social", "Instagram/Social Media"),
-    footer = tagList(
-      modalButton("Cancel"),
-      actionButton("save_student", "Save Student", class = "btn-primary")
-    )
-  ),
-  
-  # Modal for Adding New Interaction
-  bslib::modal_ui(
-    id = "add_interaction_modal",
-    title = "Log New Interaction",
-    dateInput("new_int_date", "Date", value = Sys.Date()),
-    textInput("new_int_time", "Time", 
-              value = format(Sys.time(), "%H:%M"),
-              placeholder = "HH:MM"),
-    textInput("new_int_place", "Place/Location"),
-    textAreaInput("new_int_notes", "Notes", rows = 5,
-                  placeholder = "What did you discuss?"),
-    footer = tagList(
-      modalButton("Cancel"),
-      actionButton("save_interaction", "Save Interaction", class = "btn-primary")
-    )
-  )
+
 )
 
 server <- function(input, output, session) {
@@ -328,7 +290,26 @@ server <- function(input, output, session) {
   
   # Show Add Student Modal
   observeEvent(input$add_student_btn, {
-    bslib::modal_show("add_student_modal")
+    showModal(modalDialog(
+      title = "Add New Student",
+      size = "l",
+      textInput("new_first_name", "First Name*"),
+      textInput("new_last_name", "Last Name*"),
+      textInput("new_phone", "Phone"),
+      textInput("new_email", "Email"),
+      selectInput("new_grad_month", "Graduation Month", 
+                  choices = c("", month.name)),
+      numericInput("new_grad_year", "Graduation Year", 
+                   value = year(Sys.Date()), min = 2020, max = 2035),
+      textInput("new_hometown", "Hometown"),
+      textInput("new_major", "Major"),
+      textInput("new_linkedin", "LinkedIn URL"),
+      textInput("new_social", "Instagram/Social Media"),
+      footer = tagList(
+        modalButton("Cancel"),
+        actionButton("save_student", "Save Student", class = "btn-primary")
+      )
+    ))
   })
   
   # Save New Student
@@ -356,7 +337,7 @@ server <- function(input, output, session) {
     tryCatch({
       sheet_append(SHEET_URL, new_student, sheet = "Students")
       load_data()
-      bslib::modal_hide("add_student_modal")
+      removeModal()
       rv$selected_student_id <- new_id
       showNotification("Student added successfully!", type = "message")
       
@@ -378,7 +359,20 @@ server <- function(input, output, session) {
   
   # Show Add Interaction Modal
   observeEvent(input$add_interaction_btn, {
-    bslib::modal_show("add_interaction_modal")
+    showModal(modalDialog(
+      title = "Log New Interaction",
+      dateInput("new_int_date", "Date", value = Sys.Date()),
+      textInput("new_int_time", "Time", 
+                value = format(Sys.time(), "%H:%M"),
+                placeholder = "HH:MM"),
+      textInput("new_int_place", "Place/Location"),
+      textAreaInput("new_int_notes", "Notes", rows = 5,
+                    placeholder = "What did you discuss?"),
+      footer = tagList(
+        modalButton("Cancel"),
+        actionButton("save_interaction", "Save Interaction", class = "btn-primary")
+      )
+    ))
   })
   
   # Save New Interaction
@@ -405,7 +399,7 @@ server <- function(input, output, session) {
     tryCatch({
       sheet_append(SHEET_URL, new_interaction, sheet = "Interactions")
       load_data()
-      bslib::modal_hide("add_interaction_modal")
+      removeModal()
       showNotification("Interaction logged successfully!", type = "message")
       
       # Clear form
