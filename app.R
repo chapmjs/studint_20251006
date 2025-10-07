@@ -4,10 +4,20 @@ library(DT)
 library(dplyr)
 library(lubridate)
 
-# Authenticate with Google Sheets (see instructions below)
-# For deployment, use gs4_auth(cache = ".secrets", email = "your-email@gmail.com")
-# For local testing, use gs4_auth() for interactive authentication
-gs4_deauth() # Use this line initially to create sheets without auth
+# Authenticate with Google Sheets
+# IMPORTANT: Replace with your authentication method (see instructions below)
+# For local testing: gs4_auth()
+# For ShinyApps.io: Use service account (see setup instructions)
+
+# Uncomment ONE of these options:
+# Option 1: Interactive auth (local testing only)
+# gs4_auth()
+
+# Option 2: Service account (for deployment)
+# gs4_auth(path = "service-account-key.json")
+
+# Option 3: Cached token (alternative for deployment)
+# gs4_auth(cache = ".secrets", email = "your-email@gmail.com")
 
 # Replace this with your actual Google Sheet URL after creating it
 SHEET_URL <- "https://docs.google.com/spreadsheets/d/1LV4ZnSPR60cAJRDf23v9weDGt1BGhRknI54zIJ6q2ys/edit?usp=sharing"
