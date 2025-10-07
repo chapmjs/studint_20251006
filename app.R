@@ -10,7 +10,7 @@ library(lubridate)
 gs4_deauth() # Use this line initially to create sheets without auth
 
 # Replace this with your actual Google Sheet URL after creating it
-SHEET_URL <- "https://docs.google.com/spreadsheets/d/1LV4ZnSPR60cAJRDf23v9weDGt1BGhRknI54zIJ6q2ys/edit?gid=782361108#gid=782361108"
+SHEET_URL <- "https://docs.google.com/spreadsheets/d/1LV4ZnSPR60cAJRDf23v9weDGt1BGhRknI54zIJ6q2ys/edit?usp=sharing"
 
 # Function to initialize Google Sheets if they don't exist
 initialize_sheets <- function() {
